@@ -1,0 +1,42 @@
+Docker Image Deletion:
+   description: 'Deletes all docker images and volumes'
+   script: |
+    shell: "./dockerdeletescript.sh"
+
+unfetter:
+   description: 'Downloads unfetter coding into directory'
+   image: unfetter
+   container: unfetter
+   script: |
+     shell: "./unfetter-discover/unfetter.git"
+
+unfetter-ui:
+   description: 'Downloads unfetter-ui coding into directory'
+   image: unfetter-ui
+   container: unfetter-ui
+   script: |
+     shell: "./unfetter-discover/unfetter-ui.git"
+
+unfetter-store:
+   description: 'Downloads unfetter-store coding into directory'
+   image: unfetter-store
+   container: unfetter-store
+   script: |
+      shell: "./unfetter-discover/unfetter-store.git"
+
+stix2pattern:
+   description: 'Downloads stix2pattern coding into directory'
+   image: stix2pattern
+   container: stix2pattern
+   script: |
+      shell: "./unfetter-discover/stix2pattern.git"
+
+Developmental Build Process:
+    description: 'Downloads and runs developmental build process'
+    script: |
+      shell: "./developmentalbuild.sh"
+
+Jenkins Validation:
+    description: 'Jenkins validates that the build worked'
+    script: |
+      shell: "./validationtest.sh"
