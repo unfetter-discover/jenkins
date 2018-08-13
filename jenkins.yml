@@ -1,24 +1,10 @@
-Docker Image Deletion:
-   description: 'Deletes all docker images and volumes'
-   script: |
-    shell: "./dockerdeletescript.sh"
-
-unfetter:
-   description: 'Downloads unfetter coding into directory'
-   image: unfetter
-   container: unfetter
-   script: |
-     shell: "./unfetter-discover/unfetter.git"
-
-unfetter-ui:
-   description: 'Downloads unfetter-ui coding into directory'
-   image: unfetter-ui
-   container: unfetter-ui
-   script: |
-     shell: "./unfetter-discover/unfetter-ui.git"
-
-unfetter-store:
-   description: 'Downloads unfetter-store coding into directory'
-   image: unfetter-store
-   container: unfetter-store
-
+# Configuration for running Jenkins with Unfetter Jobs Volume
+# Run this image
+jenkins:
+  image: unfetterjobscript
+  volumes:
+  - Jenkins_dockerdeletescript:/home/jenkins/dockerdeletescript.sh
+  - Jenkins_downloadproject:/home/jenkins/downloadproject.sh
+  ports:
+  - "80:80"
+  - "3002:3002"
