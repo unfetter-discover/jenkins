@@ -8,3 +8,7 @@ jenkins:
   ports:
   - "80:80"
   - "3002:3002"
+  hostname:
+    "unfetterjobscript"
+  container_name:
+    "unfetterjobscript"
