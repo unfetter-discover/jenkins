@@ -1,49 +1,61 @@
-# Configuration for running Jenkins with Unfetter Jobs Volume
+# Configuration for runniing Jenkins with Unfetter Jobs Volume
 # Run this image
-#jenkins:
- # image: unfetterjobscript
-  #volumes:
-  #- Jenkins_dockerdeletescript:/home/jenkins/dockerdeletescript.sh
-  #- Jenkins_downloadproject:/home/jenkins/downloadproject.sh
-  #- ./certs/:/etc/pki/tls/certs
-  #ports:
-  #- "80:80"
-  #- "443:443"
-  #hostname:
-   # "unfetterjobscript"
-  #container_name:
-   # "unfetterjobscript"
-unfetter-ui:
-  image: unfetter-ui
-  container_name: unfetter-ui
-  volumes:
-  - ../unfetter-discover/unfetter-ui/docker
-  - ../unfetter-discover/unfetter-ui/src
-  - ../unfetter-discover/unfetter-ui/e2e
+#version: '2.0'
+#services:
+ # unfetter:
+  #  image: unfetter-jenkins
+   # container_name: unfetter-jenkins
+    #volumes:
+     #- ../home/jenkins/dockerdeletescript.sh
+     #- ../home/jenkins/downloadproject.sh
+  #- ../certs/:/etc/pki/tls/certs
+    #ports:
+    # - 80:80
+    # - 443:443
 
-unfetter-ui:
-  image: unfetter-ui
-  container_name: unfetter_ui
-  volumes: 
-  - ../unfetter-ui/src:/usr/share/unfetter-ui/src
+  unfetter-ui:
+    image: unfetter-ui
+    container_name: unfetter-ui
+    volumes:
+     - ../unfetter-discover/unfetter-ui/docker
+     - ../unfetter-discover/unfetter-ui/src
+     - ../unfetter-discover/unfetter-ui/e2e
+    entrypoint:
+     - npm
+     - run
+     - serve:docker:dev:demo
 
-unfetter-ctf-ingest:
-  image: unfetter-ctf-ingest
-  container_name: unfetter-ctf-ingest
-  volumes:
-  - ../unfetter-store/unfetter-ctf-ingest/test-data:/tmp/test-data
+  unfetter-ctf-ingest:
+    image: unfetter-ctf-ingest
+    container_name: unfetter-ctf-ingest
+    volumes:
+     - ../unfetter-store/unfetter-ctf-ingest/test-data:/tmp/test-data
+    environment:
+     - API_PORT=3000
+    entrypoint:
+     - npm
+     - run
+     - serve:docker:dev:demo
 
-unfetter-api-explorer:
-  image: unfetter-api-explorer
-  container_name: unfetter-api-explorer
-  ports:
-  - "49260:3000"
-  volumes:
-  - ./unfetter-discover/unfetter-store/unfetter-api-explorer/src
-  - ./unfetter-discover/unfetter-store/unfetter-api-explorer/config
-  
-unfetter-discover-processor:
-  image: unfetter-discover-processor
-  container_name: unfetter-discover-processor
-  volumes:
-  - ./unfetter-discover/unfetter-store/unfetter-discover-processor/src
+  unfetter-api-explorer:
+    image: unfetter-api-explorer
+    container_name: unfetter-api-explorer
+    ports:
+     - "49260:3000"
+    volumes:
+     - ./unfetter-discover/unfetter-store/unfetter-api-explorer/src
+     - ./unfetter-discover/unfetter-store/unfetter-api-explorer/config
+    entrypoint:
+    - npm
+    - run
+    - server:docker:dev:demo
+ 
+  unfetter-discover-processor:
+    image: unfetter-discover-processor
+    container_name: unfetter-discover-processor
+    volumes:
+     - ./unfetter-discover/unfetter-store/unfetter-discover-processor/src
+    entrypoint:
+    - npm
+    - run
+    - server:docker:dev:demo
