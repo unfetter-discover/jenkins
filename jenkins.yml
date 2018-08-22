@@ -1,61 +1,23 @@
-# Configuration for runniing Jenkins with Unfetter Jobs Volume
-# Run this image
-#version: '2.0'
-#services:
- # unfetter:
-  #  image: unfetter-jenkins
-   # container_name: unfetter-jenkins
-    #volumes:
-     #- ../home/jenkins/dockerdeletescript.sh
-     #- ../home/jenkins/downloadproject.sh
-  #- ../certs/:/etc/pki/tls/certs
-    #ports:
-    # - 80:80
-    # - 443:443
-
-  unfetter-ui:
-    image: unfetter-ui
-    container_name: unfetter-ui
-    volumes:
-     - ../unfetter-discover/unfetter-ui/docker
-     - ../unfetter-discover/unfetter-ui/src
-     - ../unfetter-discover/unfetter-ui/e2e
-    entrypoint:
-     - npm
-     - run
-     - serve:docker:dev:demo
-
-  unfetter-ctf-ingest:
-    image: unfetter-ctf-ingest
-    container_name: unfetter-ctf-ingest
-    volumes:
-     - ../unfetter-store/unfetter-ctf-ingest/test-data:/tmp/test-data
-    environment:
-     - API_PORT=3000
-    entrypoint:
-     - npm
-     - run
-     - serve:docker:dev:demo
-
-  unfetter-api-explorer:
-    image: unfetter-api-explorer
-    container_name: unfetter-api-explorer
-    ports:
-     - "49260:3000"
-    volumes:
-     - ./unfetter-discover/unfetter-store/unfetter-api-explorer/src
-     - ./unfetter-discover/unfetter-store/unfetter-api-explorer/config
-    entrypoint:
-    - npm
-    - run
-    - server:docker:dev:demo
- 
-  unfetter-discover-processor:
-    image: unfetter-discover-processor
-    container_name: unfetter-discover-processor
-    volumes:
-     - ./unfetter-discover/unfetter-store/unfetter-discover-processor/src
-    entrypoint:
-    - npm
-    - run
-    - server:docker:dev:demo
+config:
+  project_name: unfetter_jenkins
+services:
+  jenkins:
+    image: jenkins
+    container_name: jenkins
+steps:
+  delete:
+    - ../jenkins/dockerdeletescript.sh
+  download:
+    - ../jenkins/downloadproject.sh
+  validation:
+    - ../jenkins/validationtest.sh
+  master_test:
+    - ../jenkins/ctfingesttestmaster.sh
+    - ../jenkins/discoverapitestmaster.sh
+    - ../jenkins/discoverprocessormaster.sh
+    - ../jenkins/uitestmaster.sh
+  develop_test:
+    - ../jenkins/ctfingesttestdevelop.sh
+    - ../jenkins/discoverapitestmaster.sh
+    - ../jenkins/discoverprocessortestdevelop.sh
+    - ../jenkins/uitestdevelop.sh
