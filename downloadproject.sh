@@ -1,4 +1,5 @@
 mkdir unfetter-discover
+cd unfetter-discover
 git clone git@github.com:unfetter-discover/unfetter.git
 git clone git@github.com:unfetter-discover/unfetter-ui.git
 git clone git@github.com:unfetter-discover/unfetter-store.git

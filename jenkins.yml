@@ -1,23 +1,39 @@
-config:
-  project_name: unfetter_jenkins
-services:
-  jenkins:
-    image: jenkins
-    container_name: jenkins
-steps:
-  delete:
-    - ../jenkins/dockerdeletescript.sh
-  download:
-    - ../jenkins/downloadproject.sh
-  validation:
-    - ../jenkins/validationtest.sh
-  master_test:
-    - ../jenkins/ctfingesttestmaster.sh
-    - ../jenkins/discoverapitestmaster.sh
-    - ../jenkins/discoverprocessormaster.sh
-    - ../jenkins/uitestmaster.sh
-  develop_test:
-    - ../jenkins/ctfingesttestdevelop.sh
-    - ../jenkins/discoverapitestmaster.sh
-    - ../jenkins/discoverprocessortestdevelop.sh
-    - ../jenkins/uitestdevelop.sh
+node {
+   stage 'Clone the project'
+   dir('JenkinsBuild') {
+       stage("Delete and Download")
+       parallel 'Delete': {
+           stage("Docker Delete") {
+               if (isUnix()) {
+                   sh "/var/lib/jenkins/workspace/JenkinsBuild/dockerdeletescript.sh"
+               } else {
+                   bat "/var/lib/jenkins/workspace/JenkinsBuild/dockerdeletescript.sh"
+               }
+           }
+       }
+   }
+   stage ("Download") {
+           stage("Download Project")
+                if (isUnix()) {
+                    sh "/var/lib/jenkins/workspace/JenkinsBuild/downloadproject.sh"
+                } else {
+                    bat "/var/lib/jenkins/workspace/JenkinsBuild/downloadproject.sh"
+                }
+    }
+    stage ("Verfication"){
+        stage("Verification Test")
+            if (isUnix()) {
+                sh "/var/lib/jenkins/workspace/JenkinsBuild/verification.sh"
+            } else {
+                bat "/var/lib/jenkins/workspace/JenkinsBuild/verification.sh"
+            }   
+    }
+   stage ("Validation") {
+       stage("Validation Test")
+           if (isUnix()) {
+               sh "/var/lib/jenkins/workspace/JenkinsBuild/validationtest.sh"
+           } else {
+               bat "/var/lib/jenkins/workspace/JenkinsBuild/validationtest.sh"
+           }
+   }
+}
