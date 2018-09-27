@@ -1,0 +1,15 @@
+---
+- hosts: all
+  tasks:
+  - name: Clean Images
+    shell: /home/tjmanni/unfetter-discover/unfetter/ansible/cleanimage.sh
+  
+ # tasks: 
+ # - name: Deploy demonstration with docker-compose up
+ #   shell: /home/tjmanni/unfetter-discover/unfetter/ansible/deploydemo.sh
+  
+
+  #file: dest= /home/tjmanni/unfetter-discover/unfetter/ansible/deploy.sh mode:a+x
+    #become: yes
+    #become_method: sudo 
+    #command: ansible-playbook deploy-dev.yml

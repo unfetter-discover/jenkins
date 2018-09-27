@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks: 
+  - name: Deploying images
+    shell: /home/tjmanni/unfetter-discover/unfetter/ansible/deploydemo.sh
+

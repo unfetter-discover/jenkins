@@ -1,0 +1,5 @@
+---
+- hosts: all
+  tasks: 
+  - name: Docker-Compose up
+    shell: /home/tjmanni/unfetter-discover/unfetter/ansbile/docker-compose-up.sh
