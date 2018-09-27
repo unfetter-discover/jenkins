@@ -1,0 +1,43 @@
+node {
+   stage 'Building the project'
+   dir('jenkins) {
+      stage ("Download Jenkins")
+      stage ("Jenkins") {
+         if (isUnix()) {
+             sh "/home/tjmanni/unfetter-discover/jenkins/jenkinstartup.sh"
+         } else {
+             bat "/home/tjmanni/unfetter-discover/jenkins/jenkinsstartup.sh"
+         }
+
+      stage("Delete and Download")
+      parallel 'Delete': {
+          stage("Docker Delete") {
+             if (isUnix()) {
+                 sh "/home/tjmanni/unfetter-discover/jenkins/cleanimage.sh"
+             } else {
+                 bat "/home/tjmanni/unfetter-discover/jenkins/cleanimage.sh"
+             }
+          }
+      }
+    }
+    stage ("Download") {
+            stage("Download Project")
+                if (isUnix()) {
+                    sh "/home/tjmanni/unfetter-discover/jenkins/downloadproject.sh"
+                } else {
+                    bat "/home/tjmanni/unfetter-discover/jenkins/downloadproject.sh"
+                } 
+            }
+
+    stage ("Test") {
+            stage("Verification of images existing and unfetter succesfully downloads")
+                if (isUnix()) {
+                    sh "/home/tjmanni/unfetter-discover/jenkins/listimages.sh"
+                } else {
+                    bat "/home/tjmanni/unfetter-discover/jenkins/listimages.sh"
+                }
+            }
+
+        
+     
+               
