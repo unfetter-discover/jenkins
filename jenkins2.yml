@@ -1,25 +1,14 @@
 node {
    stage 'Building the project'
-   dir('jenkins) {
+   dir ('jenkins) {
       stage ("Download Jenkins")
       stage ("Jenkins") {
          if (isUnix()) {
              sh "/home/tjmanni/unfetter-discover/jenkins/jenkinstartup.sh"
          } else {
-             bat "/home/tjmanni/unfetter-discover/jenkins/jenkinsstartup.sh"
+             bat "/home/tjmanni/unfetter-discover/jenkins/jenkinstartup.sh"
          }
 
-      stage("Delete and Download")
-      parallel 'Delete': {
-          stage("Docker Delete") {
-             if (isUnix()) {
-                 sh "/home/tjmanni/unfetter-discover/jenkins/cleanimage.sh"
-             } else {
-                 bat "/home/tjmanni/unfetter-discover/jenkins/cleanimage.sh"
-             }
-          }
-      }
-    }
     stage ("Download") {
             stage("Download Project")
                 if (isUnix()) {
@@ -38,6 +27,16 @@ node {
                 }
             }
 
-        
-     
-               
+    stage ("Delete")
+           parallel 'Delete': {
+              stage("Docker Delete") {
+                  if (isUnix()) {
+                      sh "/home/tjmanni/unfetter-discover/jenkins/cleanimage.sh"
+                  } else {
+                      bat "/home/tjmanni/unfetter-discover/jenkins/cleanimage.sh"
+             }   
+         }
+      } 
+    } 
+  } 
+}
