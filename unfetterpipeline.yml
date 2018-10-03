@@ -1,0 +1,12 @@
+node('download unfetter for ansible') {
+
+    stage 'Checkout'
+         checkout scm
+    stage 'Build'
+    sh "git@github.com:unfetter-discover/jenkins.git"
+    sh "mkdir unfetter-discover"
+    sh "git@github.com:unfetter-discover/unfetter.git"
+    sh "cd unfetter"
+    sh "cd ansible"
+    sh "ansible-playbook deploy.yml"
+}
