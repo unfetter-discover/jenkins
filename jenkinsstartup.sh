@@ -1,4 +1,5 @@
-sudo su
+#Before we begin installation, we need to be in the root directory to set up libraries for Jenkins.  Type "sudo su" to gain access to the root.
+#sudo su
 yum update -y
 yum install -y wget rpm java-1.8.0-openjdk-devel
 wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins.ci.org/redhat/jenkins.repo
