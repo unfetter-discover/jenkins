@@ -1,0 +1,36 @@
+---
+- name: Install Jenkins
+    hosts: jenkins
+    gather_facts: true
+    become: yes
+    become_method: sudo
+    tags: [jenkins]
+    tasks: 
+      - name: Update the software
+          name: '*'
+          update_cache: yes
+           - name: Install dependencies
+          package: 
+            name: "{{item}}"
+            state: latest
+            with_items: 
+              - java-1.8.0-openjdk
+              - git 
+              - wget
+      - name: Download jenkins repo
+          command: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+          rpm_key: 
+            key: https://pkg.jenkins.io/redhat/jenkins.io.key
+            state: present
+              - name: Install jenkins
+                  package: 
+                    name: "{{ item }}"
+                    state: latest
+                    with items: 
+                      - jenkins
+                      - name: Allow port 8080
+              - name: Start the server
+                  service:
+                    name: jenkins
+                    state: started
+                      - wait_for: 8080
