@@ -1,0 +1,20 @@
+node {
+    stage ("Docker List") {
+      //sh "mkdir -p unfetter-discover"
+      sh "cd unfetter-discover"
+      //sh "cd jenkins"
+      //git "https://github.com/unfetter-discover/jenkins.git
+      //sh "git clone https://github.com/unfetter-discover/unfetter.git"
+      //sh "git clone https://github.com/unfetter-discover/unfetter-ui.git"
+      //sh "git clone https://github.com/unfetter-discover/unfetter-store.git"
+      //sh "git clone https://github.com/unfetter-discover/stix2pattern.git"
+      //sh "docker history docker"
+      //sh "cd unfetter/ansible && ansible-playbook deploy-dev.yml"
+    }
+    stage ("docker container running test") {
+        if ( "docker inspect c4da0f21a645  | grep -i running" != "true" ) {
+        echo "Container currently exists and is successfully running." }
+        else {
+        echo "Container does not exist and is not successfully running."}
+    }
+}

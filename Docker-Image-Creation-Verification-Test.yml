@@ -1,0 +1,20 @@
+node {
+    stage ("Docker List") {
+      //sh "mkdir -p unfetter-discover"
+      sh "cd unfetter-discover"
+      //sh "cd jenkins"
+      //git "https://github.com/unfetter-discover/jenkins.git
+      //sh "git clone https://github.com/unfetter-discover/unfetter.git"
+      //sh "git clone https://github.com/unfetter-discover/unfetter-ui.git"
+      //sh "git clone https://github.com/unfetter-discover/unfetter-store.git"
+      //sh "git clone https://github.com/unfetter-discover/stix2pattern.git"
+      //sh "docker history docker"
+      //sh "cd unfetter/ansible && ansible-playbook deploy-dev.yml"
+    }
+    stage ("docker creation verification test") {
+        if ( "docker inspect ff2dd4e8bf06 | grep -i created" != "true" ) {
+        echo "Image currently exists and has been successfully created." }
+        else {
+        echo "Image does not exist and has not been successfully created."}
+    }
+}
