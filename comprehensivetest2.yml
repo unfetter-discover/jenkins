@@ -1,0 +1,23 @@
+stages:
+  - name: Clean Image
+    steps: 
+      - shell: "docker system prune"
+        shell: "docker volume prune"
+        shell: "docker ps"
+  - name: Download the Project
+    steps:
+      - shell: "mkdir -p unfetter-discover"
+        shell: "cd unfetter-discover"
+        shell: "git clone https://github.com/unfetter-discover/unfetter.git"
+        shell: "git clone https://github.com/unfetter-discover/unfetter-ui.git"
+        shell: "git clone https://github.com/unfetter-discover/unfetter-store.git"
+        shell: "git clone https://github.com/unfetter-discover/stix2pattern.git"
+
+  - name: Ansible Deploy Test
+    steps: 
+      - shell: "cd unfetter/ansible && ansible-playbook deploy-dev.yml"
+
+  - name: Test Image
+    steps: 
+      - shell: "docker images"
+        shell: "docker container ls"
