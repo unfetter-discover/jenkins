@@ -1,0 +1,30 @@
+ config: 
+   project_name: Unfetter Download and Startup
+
+ services:
+   - docker download
+   - ansible deploy
+
+ steps:
+   clean system:
+     - docker system prune
+     - docker volume prune
+   unfetter download:
+     - mkdir -p unfetter-discover
+     - cd unfetter-discover
+     - git clone https://github.com/unfetter-discover/unfetter.git
+     - git clone https://github.com/unfetter-discover/unfetter-ui.git
+     - git clone https://github.com/unfetter-discover/unfetter-store.git
+     - git clone https://github.com/unfetter-discover/stix2pattern.git
+
+   ansible deploy test:
+     - cd unfetter/ansible && ansible-playbook deploy-dev.yml
+
+   test image:
+     - docker images
+     - docker container ls
+
+   Verify Container Running:
+     - docker ps -a | grep -i exited | grep -v -E "(processor|openssl|williamyeh)"
+
+
